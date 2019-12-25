@@ -57,7 +57,7 @@
             "default_value": "10",
             "user_viewable": 1,
             "user_editable": 0,
-            "rules": "required|int|max:64"
+            "rules": "required|int|max:1000"
         },
         {
             "name": "Game Difficulty",
