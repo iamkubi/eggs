@@ -1,0 +1,81 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2020-04-14T10:08:01-07:00",
+    "name": "The Forest",
+    "author": "iamkubi@gmail.com",
+    "description": "As the lone survivor of a passenger jet crash, you find yourself in a mysterious forest battling to stay alive against a society of cannibalistic mutants. Build, explore, survive in this terrifying first person survival horror simulator.",
+    "image": "quay.io\/parkervcp\/pterodactyl-images:ubuntu_wine-xvfb",
+    "startup": ".\/start_se.sh -serversteamport {{STEAM_PORT}} -servergameport {{SERVER_PORT}} -serverqueryport {{QUERY_PORT}} -servername \"{{SERVER_NAME}}\" -serverplayers {{MAX_PLAYERS}} -difficulty {{SERVER_DIFFICULTY}}",
+    "config": {
+        "files": "{}",
+        "startup": "{}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napt update\r\napt -y --no-install-recommends install curl unzip libstdc++6 lib32gcc1 ca-certificates\r\ncd \/tmp\r\ncurl -sSL -o steamcmd.tar.gz http:\/\/media.steampowered.com\/installer\/steamcmd_linux.tar.gz\r\nmkdir -p \/mnt\/server\/steam\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steam\r\ncd \/mnt\/server\/steam\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n.\/steamcmd.sh +login anonymous +@sSteamCmdForcePlatformType windows +force_install_dir \/mnt\/server +app_update ${APPID} validate +quit\r\nmkdir -p \/mnt\/server\/.steam\/sdk32\r\ncp -v \/mnt\/server\/steam\/linux32\/steamclient.so \/mnt\/server\/.steam\/sdk32\/steamclient.so\r\nmkdir -p \/home\/container\/.wine64\r\n# Get First-Time Setup Configuration Files\r\necho \"#!\/bin\/sh\r\nexport WINEARCH=win64\r\nexport WINEPREFIX=\/home\/container\/.wine64\r\nxvfb-run --auto-servernum --server-args='-screen 0 640x480x24:32' wine64 \/home\/container\/TheForestDedicatedServer.exe -batchmode -nographics -savefolderpath \/home\/container\/TheForestDedicatedServer_Data -configfilepath \/home\/container\/TheForestDedicatedServer_Data\/forest\/config\/config.cfg\" > \/mnt\/server\/start_se.sh\r\nchmod +x \/mnt\/server\/start_se.sh",
+            "container": "ubuntu:18.04",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Game ID",
+            "description": "The ID corresponding to the game to download.",
+            "env_variable": "APPID",
+            "default_value": "556450",
+            "user_viewable": 1,
+            "user_editable": 0,
+            "rules": "required|numeric|digits_between:1,6"
+        },
+        {
+            "name": "Server Name",
+            "description": "Name of the server, appears in Steam browser.",
+            "env_variable": "SERVER_NAME",
+            "default_value": "The Forest",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|string|max:64"
+        },
+        {
+            "name": "Steam Port",
+            "description": "Steam port",
+            "env_variable": "STEAM_PORT",
+            "default_value": "27017",
+            "user_viewable": 1,
+            "user_editable": 0,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Query Port",
+            "description": "Query port",
+            "env_variable": "QUERY_PORT",
+            "default_value": "27016",
+            "user_viewable": 1,
+            "user_editable": 0,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Max Players",
+            "description": "Server player cap",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "10",
+            "user_viewable": 1,
+            "user_editable": 0,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Difficulty",
+            "description": "Server difficulty setting",
+            "env_variable": "SERVER_DIFFICULTY",
+            "default_value": "Normal",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "required|string|max:20"
+        }
+    ]
+}
