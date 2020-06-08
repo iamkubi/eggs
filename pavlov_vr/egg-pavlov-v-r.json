@@ -1,0 +1,36 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1"
+    },
+    "exported_at": "2020-06-07T23:55:45-07:00",
+    "name": "Pavlov VR",
+    "author": "iamkubi@gmail.com",
+    "description": "Pavlov is a multiplayer shooter in VR",
+    "image": "quay.io\/pterodactyl\/core:source",
+    "startup": ".\/PavlovServer.sh -PORT={{SERVER_PORT}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Steam Servers Connected\"\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "apt update\r\napt -y --no-install-recommends install curl unzip lib32gcc1 ca-certificates\r\ncd \/tmp\r\ncurl -sSL -o steamcmd.tar.gz http:\/\/media.steampowered.com\/installer\/steamcmd_linux.tar.gz\r\nmkdir -p \/mnt\/server\/steam\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steam\r\ncd \/mnt\/server\/steam\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n.\/steamcmd.sh +login anonymous +force_install_dir \/mnt\/server +app_update ${APP_ID} +quit\r\nmkdir -p \/mnt\/server\/.steam\/sdk32\r\ncp -v \/mnt\/server\/steam\/linux32\/steamclient.so \/mnt\/server\/.steam\/sdk32\/steamclient.so",
+            "container": "debian:buster-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "App ID",
+            "description": "Steam App ID",
+            "env_variable": "APP_ID",
+            "default_value": "622970",
+            "user_viewable": 0,
+            "user_editable": 0,
+            "rules": "required|string|max:20"
+        }
+    ]
+}
