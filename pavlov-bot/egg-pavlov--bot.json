@@ -1,0 +1,31 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2022-01-10T03:48:21-06:00",
+    "name": "Pavlov-Bot",
+    "author": "unknown@unknown.com",
+    "description": "A bot used for performing RCON commands over Discord.",
+    "features": null,
+    "images": [
+        "ghcr.io\/smooklu\/python:pipenv3.8"
+    ],
+    "file_denylist": [],
+    "startup": "cd ~\/pavlov-bot && python3 -m pipenv install && python3 -m pipenv run python3.8 run.py",
+    "config": {
+        "files": "{}",
+        "startup": "{}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "apt update\r\nDEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common python3.8 python3-pip git\r\ncd \/tmp\r\ncd \/mnt\/server && git clone https:\/\/github.com\/makupi\/pavlov-bot\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\npip3 install pipenv\r\ncd \/mnt\/server\/pavlov-bot && pipenv install",
+            "container": "ubuntu:20.04",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": []
+}
