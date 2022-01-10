@@ -4,7 +4,7 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2022-01-10T04:17:42-06:00",
+    "exported_at": "2022-01-10T04:39:50-06:00",
     "name": "Pavlov-Bot",
     "author": "unknown@unknown.com",
     "description": "A bot used for performing RCON commands over Discord.",
@@ -16,7 +16,7 @@
     "startup": "cd ~\/pavlov-bot && python3 -m pipenv install && python3 -m pipenv run python run.py",
     "config": {
         "files": "{}",
-        "startup": "{}",
+        "startup": "{\r\n    \"done\": \"Pavlov Cog ready.\"\r\n}",
         "logs": "{}",
         "stop": "^C"
     },
