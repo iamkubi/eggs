@@ -4,7 +4,7 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2022-01-11T19:11:19-06:00",
+    "exported_at": "2022-01-11T19:15:17-06:00",
     "name": "Pavlov VR",
     "author": "iamkubi@gmail.com",
     "description": "Pavlov is a multiplayer shooter in VR",
@@ -39,7 +39,7 @@
         },
         {
             "name": "Beta Version",
-            "description": "If you wish to install a beta version such as Shack, Shack RC, or Beta.",
+            "description": "If you wish to install a beta version such as Shack, Shack RC, or Beta.\r\nShack: -beta shack\r\nShack RC: -beta shack_beta\r\nBeta: -beta beta_server",
             "env_variable": "BETA_VERSION",
             "default_value": "",
             "user_viewable": false,
