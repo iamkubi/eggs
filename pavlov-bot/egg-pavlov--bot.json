@@ -4,7 +4,7 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2022-01-10T04:39:50-06:00",
+    "exported_at": "2022-01-11T20:52:07-06:00",
     "name": "Pavlov-Bot",
     "author": "unknown@unknown.com",
     "description": "A bot used for performing RCON commands over Discord.",
@@ -22,10 +22,20 @@
     },
     "scripts": {
         "installation": {
-            "script": "apt update\r\nDEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common python3.8 python3-pip git\r\ncd \/tmp\r\ncd \/mnt\/server && git clone https:\/\/github.com\/makupi\/pavlov-bot\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\npip3 install pipenv\r\ncd \/mnt\/server\/pavlov-bot && pipenv install",
+            "script": "apt update\r\nDEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common python3.8 python3-pip git\r\ncd \/tmp\r\ncd \/mnt\/server && git clone --branch ${BRANCH} https:\/\/github.com\/makupi\/pavlov-bot\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\npip3 install pipenv\r\ncd \/mnt\/server\/pavlov-bot && pipenv install",
             "container": "ubuntu:20.04",
             "entrypoint": "bash"
         }
     },
-    "variables": []
+    "variables": [
+        {
+            "name": "Branch",
+            "description": "You can choose which branch of pavlov-bot you wish to clone.",
+            "env_variable": "BRANCH",
+            "default_value": "master",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:20"
+        }
+    ]
 }
