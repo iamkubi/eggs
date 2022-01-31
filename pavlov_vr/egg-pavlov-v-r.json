@@ -1,13 +1,18 @@
 {
     "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
     "meta": {
-        "version": "PTDL_v1"
+        "version": "PTDL_v1",
+        "update_url": null
     },
-    "exported_at": "2020-06-07T23:55:45-07:00",
+    "exported_at": "2022-01-11T19:15:17-06:00",
     "name": "Pavlov VR",
     "author": "iamkubi@gmail.com",
     "description": "Pavlov is a multiplayer shooter in VR",
-    "image": "quay.io\/pterodactyl\/core:source",
+    "features": null,
+    "images": [
+        "ghcr.io\/smooklu\/games:source"
+    ],
+    "file_denylist": [],
     "startup": ".\/PavlovServer.sh -PORT={{SERVER_PORT}}",
     "config": {
         "files": "{}",
@@ -17,7 +22,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "apt update\r\napt -y --no-install-recommends install curl unzip lib32gcc1 ca-certificates\r\ncd \/tmp\r\ncurl -sSL -o steamcmd.tar.gz http:\/\/media.steampowered.com\/installer\/steamcmd_linux.tar.gz\r\nmkdir -p \/mnt\/server\/steam\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steam\r\ncd \/mnt\/server\/steam\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n.\/steamcmd.sh +login anonymous +force_install_dir \/mnt\/server +app_update ${APP_ID} +quit\r\nmkdir -p \/mnt\/server\/.steam\/sdk32\r\ncp -v \/mnt\/server\/steam\/linux32\/steamclient.so \/mnt\/server\/.steam\/sdk32\/steamclient.so",
+            "script": "apt update\r\napt install -y gdb curl lib32gcc1 libc++-dev unzip\r\ncd \/tmp\r\ncurl -sSL -o steamcmd.tar.gz http:\/\/media.steampowered.com\/installer\/steamcmd_linux.tar.gz\r\nmkdir -p \/mnt\/server\/steam\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steam\r\ncd \/mnt\/server\/steam\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n.\/steamcmd.sh +login anonymous +force_install_dir \/mnt\/server +app_update ${APP_ID} ${BETA_VERSION} +quit\r\n.\/steamcmd.sh +login anonymous +app_update 1007 +quit\r\nmkdir -p \/mnt\/server\/.steam\/sdk64\r\ncp \/mnt\/server\/steam\/steamapps\/common\/Steamworks\\ SDK\\ Redist\/linux64\/steamclient.so \/mnt\/server\/.steam\/sdk64\/steamclient.so\r\ncp \/mnt\/server\/steam\/steamapps\/common\/Steamworks\\ SDK\\ Redist\/linux64\/steamclient.so \/mnt\/server\/Pavlov\/Binaries\/Linux\/steamclient.so\r\nchmod +x \/mnt\/server\/PavlovServer.sh\r\nmkdir -p \/mnt\/server\/Pavlov\/Saved\/Logs\r\nmkdir -p \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\r\nmkdir -p \/mnt\/server\/Pavlov\/Saved\/maps\r\ntouch \/mnt\/server\/Pavlov\/Saved\/Config\/mods.txt\r\ntouch \/mnt\/server\/Pavlov\/Saved\/Config\/blacklist.txt\r\ntouch \/mnt\/server\/Pavlov\/Saved\/Config\/whitelist.txt\r\necho \"[\/Script\/Pavlov.DedicatedServer]\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"bEnabled=true\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"ServerName=\\\"${SERVER_NAME}\\\"\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"MaxPlayers=10     #Set this to 10 for Shack. 24 is the reasonable maximum for PC, anything higher almost always results in lag. \" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"ApiKey=\\\"${API_KEY}\\\"\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"bSecured=true\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"bCustomServer=true \" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"bVerboseLogging=false \" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"bCompetitive=false #This only works for SND\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"bWhitelist=false \" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"RefreshListTime=120 \" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"LimitedAmmoType=0 \" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"TickRate=90\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"TimeLimit=60\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"#Password=0000 \" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"BalanceTableURL=\\\"vankruptgames\/BalancingTable\/main\\\"\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"MapRotation=(MapId=\\\"${FIRST_ROTATION_MAP}\\\", GameMode=\\\"${FIRST_ROTATION_GAMEMODE}\\\")\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/LinuxServer\/Game.ini\r\necho \"Password=${RCON_PASSWORD}\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/RconSettings.txt\r\necho \"Port=${RCON_PORT}\" >> \/mnt\/server\/Pavlov\/Saved\/Config\/RconSettings.txt",
             "container": "debian:buster-slim",
             "entrypoint": "bash"
         }
@@ -28,9 +33,72 @@
             "description": "Steam App ID",
             "env_variable": "APP_ID",
             "default_value": "622970",
-            "user_viewable": 0,
-            "user_editable": 0,
+            "user_viewable": false,
+            "user_editable": false,
             "rules": "required|string|max:20"
+        },
+        {
+            "name": "Beta Version",
+            "description": "If you wish to install a beta version such as Shack, Shack RC, or Beta.\r\nShack: -beta shack\r\nShack RC: -beta shack_beta\r\nBeta: -beta beta_server",
+            "env_variable": "BETA_VERSION",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "string|max:20"
+        },
+        {
+            "name": "Server Name",
+            "description": "The name of your server.",
+            "env_variable": "SERVER_NAME",
+            "default_value": "My_private_idaho",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:35"
+        },
+        {
+            "name": "API Key",
+            "description": "You will need a API key if you are hosting more than two servers on one IP. https:\/\/pavlov-ms.vankrupt.com\/servers\/v1\/key",
+            "env_variable": "API_KEY",
+            "default_value": "ABC123FALSEKEYDONTUSEME",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:35"
+        },
+        {
+            "name": "RCON Password",
+            "description": "This will be the password for RCON.",
+            "env_variable": "RCON_PASSWORD",
+            "default_value": "ChangeThisPassword",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:35"
+        },
+        {
+            "name": "First Map Rotation Name",
+            "description": "This will be the first map in the rotation.",
+            "env_variable": "FIRST_ROTATION_MAP",
+            "default_value": "datacenter",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:35"
+        },
+        {
+            "name": "First Map Rotation Gamemode",
+            "description": "This will be the gamemode for the first map rotation.",
+            "env_variable": "FIRST_ROTATION_GAMEMODE",
+            "default_value": "GUN",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "RCON Port",
+            "description": "The port you will use for RCON.",
+            "env_variable": "RCON_PORT",
+            "default_value": "9100",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:10"
         }
     ]
 }
